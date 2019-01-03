@@ -1,0 +1,7 @@
+add serviceGroup MyGroup SSL -maxClient 0 -maxReq 0 -cip ENABLED rlnclientipaddr -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA NO -TCPB NO -CMP YES
+add db user mydbuser -password qdqsq4gqg4era4g3q5t6a43z5traz4a33faz54t87r343az8hry3j4y5 -encrypted -encryptmethod ENCMTHD_3
+add ssl certKey www.mydomain.org -cert www.mydomain.org.crt -key www.mydomain.org.key -passcrypt G5454FFF5457G5DdsD==
+add lb vserver MyLbVserver HTTP 176.24.1.1 80 -persistenceType NONE -lbMethod ROUNDROBIN -cltTimeout 180 -appflowLog DISABLED
+bind lb vserver MyLbVserver MyGroup
+add lb monitor https_mon HTTP-ECV -send "GET /healthcheck.php" -LRTM DISABLED -interval 10 -resptimeout 5
+enable server MyServer
