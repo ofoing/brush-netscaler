@@ -1,13 +1,10 @@
-var BrushBase = require('brush-base');
-var regexLib = require('syntaxhighlighter-regex').commonRegExp;
+SyntaxHighlighter.brushes.Custom = function() {
+  var funcs = 'add bind clear create disable enable rm set show unbind unset force save reboot ping apply cls flush shell ' +
+				'check convert dump export help install man rename restore send shutdown stat traceroute uninstall unsign ' +
+				'grep exit import kill reset alias batch diff source switch unalias unlock vtysh ' +
+				'backup history join nstrace quit renumber sign stop traceroute6 unlink update ' ;
 
-function Brush() {
-  var funcs = 'add bind clear create disable enable rm set show unbind unset';
-
-  var keywords = 'backup flush history join nstrace quit renumber sign stop traceroute6 unlink update ' +
-		'alias batch cls diff exit force import kill ping reboot reset save shell source switch unalias unlock vtysh ' +
-		'apply config expire grep init link ping6 release restart scp show start sync whoami ' +
-		'archive check convert dump export help install man query rename restore send shutdown stat traceroute uninstall unsign';
+	  var keywords = 'config expire init link ping6 release restart scp start sync whoami archive query ' +
 		'aaa certPolicy encryptionParams ipTunnelParam mxRec preauthenticationparameter sc tcpParam ' +
 		'accessprofile channel engineId ipv6 nameServer preauthenticationpolicy server tcpProfile ' +
 		'acl cipher expression kcdAccount nat64 prompt serverprofile timeout ' +
@@ -36,37 +33,37 @@ function Brush() {
 		'certAction dos ip6 messageaction policy64 samlIdPPolicy tacacsParams ' +
 		'certKey dtlsProfile ip6TunnelParam metricTable pq samlIdPProfile tacacsPolicy ' +
 		'certParams dynamicRouting ipsec mib preauthenticationaction samlPolicy tcpbufParam ' +
-		'monitor vserver service site group server ';
-
+		'monitor vserver service site group server user node failover ';
+		
   var operators = '';
 
   this.regexList = [
-    {
-      regex: regexLib.multiLineDoubleQuotedString,
+	{
+      regex: SyntaxHighlighter.regexLib.multiLineDoubleQuotedString,
       css: 'string'
     },
     {
-      regex: regexLib.multiLineSingleQuotedString,
+      regex: SyntaxHighlighter.regexLib.multiLineSingleQuotedString,
       css: 'string'
-    },
+    },   
     {
       regex: new RegExp(this.getKeywords(funcs), 'gmi'),
-      css: 'color2'
-    },
-    {
-      regex: new RegExp(this.getKeywords(operators), 'gmi'),
       css: 'color1'
     },
     {
-      regex: new RegExp(this.getKeywords(keywords), 'gmi'),
+      regex: new RegExp(' ' + this.getKeywords(keywords), 'gmi'),
       css: 'keyword'
     },
     {
-      regex: /-([\w\d_-]*)$/gm,
+      regex: /[ ]{1}-([a-zA-Z0-9]*)/gmi,
       css: 'color3'
-    }		];
+    },
+	{
+      regex: /([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/gmi,
+      css: 'color2'
+    }
+			];
 };
 
-Brush.prototype = new BrushBase();
-Brush.aliases = ['ns'];
-module.exports = Brush;
+SyntaxHighlighter.brushes.Custom.prototype    = new SyntaxHighlighter.Highlighter();
+SyntaxHighlighter.brushes.Custom.aliases  = ['netscaler', 'ns'];
